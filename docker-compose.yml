@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  dl.producer:
+    image: dl.producer
+    build:
+      context: .
+      dockerfile: DL.Producer/Dockerfile
+    ports:
+      - "8000:80"
+    depends_on: 
+      - rabbitMQ
+
+  dl.consumer:
+    image: dl.consumer
+    build:
+      context: .
+      dockerfile: DL.Consumer/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - rabbitMQ
+      - "postgres"
+
+  rabbitMQ:
+    image: "rabbitmq:3-management"   
+    hostname: "rabbit"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  postgres:
+    image: postgres:9.5
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=SchoolDB
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+    ports:
+      - "5433:5432"
+

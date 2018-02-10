@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  dl.consumer:
+    image: dl.consumer:dev
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      #- NUGET_FALLBACK_PACKAGES=$container_paths_to_fallback_packages_dl.consumer$
+    volumes:
+      - E:\DockerLearn\DockerLearn\DL.Consumer:/app
+      - C:\Users\engmu\vsdbg\vs2017u5:/remote_debugger:ro
+#$nuget_volume_mapping_dl.consumer$
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: " $debuggee_arguments_probing_paths_dl.consumer$ bin/Debug/netcoreapp2.0/DL.Consumer.dll"
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/bash -c \"if PID=$$(pidof -x dotnet); then kill $$PID; fi\""
+
+  dl.producer:
+    image: dl.producer:dev
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      #- NUGET_FALLBACK_PACKAGES=$container_paths_to_fallback_packages_dl.producer$
+    volumes:
+      - E:\DockerLearn\DockerLearn\DL.Producer:/app
+      - C:\Users\engmu\vsdbg\vs2017u5:/remote_debugger:ro
+#$nuget_volume_mapping_dl.producer$
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: " $debuggee_arguments_probing_paths_dl.producer$ bin/Debug/netcoreapp2.0/DL.Producer.dll"
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/bash -c \"if PID=$$(pidof -x dotnet); then kill $$PID; fi\""
+

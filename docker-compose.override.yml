@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  dl.producer:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  dl.consumer:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
